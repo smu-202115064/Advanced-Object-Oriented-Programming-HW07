@@ -85,7 +85,15 @@ public class PasswordDAOImpl implements PasswordDAO {
 
     @Override
     public void update(PasswordInfo p) {
-
+        if (p == null) {
+            return;
+        }
+        try {
+            statement.execute("UPDATE %s SET %s = '%s', %s = '%s' WHERE %s = '%s'".formatted(DB_TABLE_NAME, DB_COLUMN_NAME_ID, p.getId(), DB_COLUMN_NAME_PASSWORD, p.getPassword(), DB_COLUMN_NAME_URL, p.getUrl()));
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
