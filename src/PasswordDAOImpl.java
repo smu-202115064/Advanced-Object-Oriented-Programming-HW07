@@ -66,7 +66,21 @@ public class PasswordDAOImpl implements PasswordDAO {
 
     @Override
     public PasswordInfo findByKey(String url) {
-        return null;
+        PasswordInfo passwordInfo = null;
+        try {
+            resultSet = statement.executeQuery("SELECT * FROM %s WHERE %s = '%s'".formatted(DB_TABLE_NAME, DB_COLUMN_NAME_URL, url));
+            if (resultSet.next()) {
+                passwordInfo = PasswordInfo.getBuilder()
+                        .setUrl(resultSet.getString(DB_COLUMN_NAME_URL))
+                        .setId(resultSet.getString(DB_COLUMN_NAME_ID))
+                        .setPassword(resultSet.getString(DB_COLUMN_NAME_PASSWORD))
+                        .build();
+            }
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return passwordInfo;
     }
 
     @Override
