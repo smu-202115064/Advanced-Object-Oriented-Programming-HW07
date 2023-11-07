@@ -98,11 +98,16 @@ public class PasswordDAOImpl implements PasswordDAO {
 
     @Override
     public void delete(String url) {
-
+        try {
+            statement.execute("DELETE FROM %s WHERE %s = '%s'".formatted(DB_TABLE_NAME, DB_COLUMN_NAME_URL, url));
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void delete(PasswordInfo p) {
-
+        delete(p.getUrl());
     }
 }
