@@ -1,4 +1,5 @@
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class PasswordDAOImpl implements PasswordDAO {
@@ -45,7 +46,22 @@ public class PasswordDAOImpl implements PasswordDAO {
 
     @Override
     public List<PasswordInfo> findAll() {
-        return null;
+        List<PasswordInfo> founds = new ArrayList<>();
+        try {
+            resultSet = statement.executeQuery("SELECT * FROM %s".formatted(DB_TABLE_NAME));
+            while (resultSet.next()) {
+                PasswordInfo p = PasswordInfo.getBuilder()
+                        .setUrl(resultSet.getString(DB_COLUMN_NAME_URL))
+                        .setId(resultSet.getString(DB_COLUMN_NAME_ID))
+                        .setPassword(resultSet.getString(DB_COLUMN_NAME_PASSWORD))
+                        .build();
+                founds.add(p);
+            }
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return founds;
     }
 
     @Override
