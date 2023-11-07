@@ -2,6 +2,34 @@ import java.sql.*;
 import java.util.List;
 
 public class PasswordDAOImpl implements PasswordDAO {
+    final static String DB_FILE_NAME = "db.sqlite3";
+    final static String DB_TABLE_NAME = "password";
+    final static String DB_TABLE_SCHEME = "(url text PRIMARY KEY, id text, password text)";
+
+    Connection connection = null;
+    ResultSet resultSet = null;
+    Statement statement = null;
+
+    public PasswordDAOImpl() {
+        try {
+            connection = DriverManager.getConnection("jdbc:sqlite:%s".formatted(DB_FILE_NAME));
+            statement = connection.createStatement();
+
+            // set timeout to 10 secs.
+            statement.setQueryTimeout(10);
+
+            createTable();
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void createTable() throws SQLException {
+        statement.executeUpdate("DROP TABLE IF EXISTS %s".formatted(DB_TABLE_NAME));
+        statement.executeUpdate("CREATE TABLE %s %s".formatted(DB_TABLE_NAME, DB_TABLE_SCHEME));
+    }
+
     @Override
     public void insert(PasswordInfo p) {
 
