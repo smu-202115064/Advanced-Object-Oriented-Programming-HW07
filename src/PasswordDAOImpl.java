@@ -2,9 +2,12 @@ import java.sql.*;
 import java.util.List;
 
 public class PasswordDAOImpl implements PasswordDAO {
-    final static String DB_FILE_NAME = "db.sqlite3";
-    final static String DB_TABLE_NAME = "password";
-    final static String DB_TABLE_SCHEME = "(url text PRIMARY KEY, id text, password text)";
+    private final static String DB_FILE_NAME = "db.sqlite3";
+    private final static String DB_TABLE_NAME = "password";
+    private final static String DB_COLUMN_NAME_URL = "url";
+    private final static String DB_COLUMN_NAME_ID = "id";
+    private final static String DB_COLUMN_NAME_PASSWORD = "password";
+    private final static String DB_TABLE_SCHEME = "(%s text PRIMARY KEY, %s text, %s text)".formatted(DB_COLUMN_NAME_URL, DB_COLUMN_NAME_ID, DB_COLUMN_NAME_PASSWORD);
 
     Connection connection = null;
     ResultSet resultSet = null;
