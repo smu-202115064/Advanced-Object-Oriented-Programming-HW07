@@ -35,7 +35,12 @@ public class PasswordDAOImpl implements PasswordDAO {
 
     @Override
     public void insert(PasswordInfo p) {
-
+        try {
+            statement.execute("INSERT INTO %s VALUES('%s','%s','%s')".formatted(DB_TABLE_NAME, p.getUrl(), p.getId(), p.getPassword()));
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
