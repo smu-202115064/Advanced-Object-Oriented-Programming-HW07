@@ -1,5 +1,5 @@
 public class PasswordInfo {
-    private String url;
+    private String url; // Primary Key
     private String id;
     private String password;
 
