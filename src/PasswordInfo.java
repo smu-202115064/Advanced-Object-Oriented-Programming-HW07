@@ -46,7 +46,7 @@ public class PasswordInfo {
 
     @Override
     public String toString() {
-        return "" + url + ", " + id + ", " + password;
+        return "%s, %s, %s".formatted(url, id, password);
     }
 
     public String getUrl() {
